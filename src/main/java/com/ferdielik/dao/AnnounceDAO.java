@@ -30,7 +30,7 @@ public class AnnounceDAO
         currentSession.delete(getById(id));
     }
 
-    public List<Test> getAll()
+    public List<Announce> getAll()
     {
         Session currentSession = sessionFactory.getCurrentSession();
         return currentSession.createCriteria(Announce.class).list();

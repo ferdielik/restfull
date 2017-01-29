@@ -69,14 +69,22 @@ public class RestController
     }
 
     @ResponseBody
-    @RequestMapping(value = "/get-main-announces", method = RequestMethod.POST)
-    public void getMainAnnounces() throws Exception
+    @RequestMapping(value = "/get-announces", method = RequestMethod.GET)
+    public List<Announce> getMainAnnounces()
+    {
+        return announceDAO.getAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/parse-main-announces", method = RequestMethod.POST)
+    public void parseMainAnnounces() throws Exception
     {
         Document doc = Jsoup.connect("http://bilgisayar.kocaeli.edu.tr/").get();
         Elements newsHeadlines = doc.select(".contentList");
         Elements elements = newsHeadlines.get(0).select(".item");
 
-        elements.forEach(element -> {
+        elements.forEach(element ->
+        {
             String title = element.select(".mainInfo .title a").html();
             String content = element.select(".mainInfo .title .duyuruMetni").html();
             content = Jsoup.clean(content, new Whitelist());
