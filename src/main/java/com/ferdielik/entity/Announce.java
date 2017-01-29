@@ -20,7 +20,7 @@ public class Announce implements Serializable
     @Column(name = "title")
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition="TEXT")
     private String content;
 
     public Long getId()
