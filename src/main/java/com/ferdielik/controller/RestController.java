@@ -105,6 +105,7 @@ public class RestController
             announce.setContent(getContent(element));
             announce.setTitle(getTitle(element));
             announce.setType(AnnounceType.SECTION);
+            announce.setDate(getDate(element));
 
             announceDAO.saveOrUpdate(announce);
         });
@@ -125,6 +126,6 @@ public class RestController
 
     private String getDate(Element element)
     {
-        return element.select(".dateBox .dat").html() + element.select(".dateBox .month").html();
+        return element.select(".dateBox .day").html() + " " + element.select(".dateBox .month").html();
     }
 }
