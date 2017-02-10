@@ -85,9 +85,8 @@ public class RestController
 
         Document doc = Jsoup.connect("http://bilgisayar.kocaeli.edu.tr/").get();
         Elements newsHeadlines = doc.select(".contentList");
-        Elements eventListLines = doc.select(".eventList");
         Elements elements = newsHeadlines.get(0).select(".item");
-        Elements eventElements = eventListLines.get(0).select(".item");
+        Elements eventElements = newsHeadlines.get(1).select(".item");
 
         elements.forEach(element ->
         {
