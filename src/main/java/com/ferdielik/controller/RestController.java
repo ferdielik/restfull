@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ferdielik.dao.AnnounceDAO;
 import com.ferdielik.dao.TestDAO;
 import com.ferdielik.entity.Announce;
+import com.ferdielik.entity.AnnounceType;
 import com.ferdielik.entity.Test;
 
 /**
@@ -79,21 +81,51 @@ public class RestController
     @RequestMapping(value = "/parse-main-announces", method = RequestMethod.POST)
     public void parseMainAnnounces() throws Exception
     {
+        announceDAO.deleteAll();
+
         Document doc = Jsoup.connect("http://bilgisayar.kocaeli.edu.tr/").get();
         Elements newsHeadlines = doc.select(".contentList");
+        Elements eventListLines = doc.select(".eventList");
         Elements elements = newsHeadlines.get(0).select(".item");
+        Elements eventElements = eventListLines.get(0).select(".item");
 
         elements.forEach(element ->
         {
-            String title = element.select(".mainInfo .title a").html();
-            String content = element.select(".mainInfo .title .duyuruMetni").html();
-            content = Jsoup.clean(content, new Whitelist());
-
             Announce announce = new Announce();
-            announce.setContent(content);
-            announce.setTitle(title);
+            announce.setDate(getDate(element));
+            announce.setContent(getContent(element));
+            announce.setTitle(getTitle(element));
+            announce.setType(AnnounceType.GENERAL);
 
             announceDAO.saveOrUpdate(announce);
         });
+
+        eventElements.forEach(element ->
+        {
+            Announce announce = new Announce();
+            announce.setContent(getContent(element));
+            announce.setTitle(getTitle(element));
+            announce.setType(AnnounceType.SECTION);
+
+            announceDAO.saveOrUpdate(announce);
+        });
+    }
+
+    private String getTitle(Element element)
+    {
+        return element.select(".mainInfo .title a").html();
+    }
+
+    private String getContent(Element element)
+    {
+        String content = element.select(".mainInfo .title .duyuruMetni").html();
+        content = Jsoup.clean(content, new Whitelist());
+
+        return content;
+    }
+
+    private String getDate(Element element)
+    {
+        return element.select(".dateBox .dat").html() + element.select(".dateBox .month").html();
     }
 }

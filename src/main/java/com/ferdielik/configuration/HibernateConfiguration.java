@@ -47,13 +47,10 @@ public class HibernateConfiguration
     private Properties hibernateProperties()
     {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
-        properties.put("hibernate.connection.CharSet", environment.getRequiredProperty("hibernate.connection.CharSet"));
-        properties.put("hibernate.connection.characterEncoding", environment.getRequiredProperty("hibernate.connection.characterEncoding"));
-        properties.put("hibernate.connection.useUnicode", environment.getRequiredProperty("hibernate.connection.useUnicode"));
+        addPropertiesWithMessage(properties, "hibernate.dialect");
+        addPropertiesWithMessage(properties, "hibernate.show_sql");
+        addPropertiesWithMessage(properties, "hibernate.format_sql");
+        addPropertiesWithMessage(properties, "hibernate.hbm2ddl.auto");
         return properties;
     }
 
@@ -64,5 +61,10 @@ public class HibernateConfiguration
         HibernateTransactionManager txManager = new HibernateTransactionManager();
         txManager.setSessionFactory(s);
         return txManager;
+    }
+
+    private void addPropertiesWithMessage(Properties properties, String messageKey)
+    {
+        properties.put(messageKey, environment.getRequiredProperty(messageKey));
     }
 }

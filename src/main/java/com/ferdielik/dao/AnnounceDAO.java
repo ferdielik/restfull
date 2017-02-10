@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ferdielik.entity.Announce;
-import com.ferdielik.entity.Test;
 
 @Repository
 @Transactional
@@ -22,6 +21,15 @@ public class AnnounceDAO
     {
         Session currentSession = sessionFactory.getCurrentSession();
         return currentSession.get(Announce.class, id);
+    }
+
+    public void deleteAll()
+    {
+        getAll().forEach(announce ->
+        {
+            delete(announce.getId());
+        });
+
     }
 
     public void delete(Long id)

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,10 +19,17 @@ public class Announce implements Serializable
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "date")
+    private String date;
+
     @Column(name = "title")
     private String title;
 
-    @Column(name = "content", columnDefinition="TEXT")
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private AnnounceType type;
+
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     public Long getId()
@@ -33,6 +42,16 @@ public class Announce implements Serializable
         this.id = id;
     }
 
+    public String getDate()
+    {
+        return date;
+    }
+
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
+
     public String getTitle()
     {
         return title;
@@ -41,6 +60,16 @@ public class Announce implements Serializable
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+    public AnnounceType getType()
+    {
+        return type;
+    }
+
+    public void setType(AnnounceType type)
+    {
+        this.type = type;
     }
 
     public String getContent()
