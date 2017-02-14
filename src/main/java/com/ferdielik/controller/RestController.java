@@ -8,6 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,14 +73,14 @@ public class RestController
 
     @ResponseBody
     @RequestMapping(value = "/get-announces", method = RequestMethod.GET)
-    public List<Announce> getMainAnnounces()
+    public ResponseEntity getMainAnnounces()
     {
-        return announceDAO.getAll();
+        return ResponseEntity.ok(announceDAO.getAll());
     }
 
     @ResponseBody
     @RequestMapping(value = "/parse-main-announces", method = RequestMethod.POST)
-    public void parseMainAnnounces() throws Exception
+    public ResponseEntity parseMainAnnounces() throws Exception
     {
         announceDAO.deleteAll();
 
@@ -109,6 +110,9 @@ public class RestController
 
             announceDAO.saveOrUpdate(announce);
         });
+
+        int announcesCount = eventElements.size() + elements.size();
+        return ResponseEntity.ok(announcesCount);
     }
 
     private String getTitle(Element element)
