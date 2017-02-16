@@ -3,6 +3,7 @@ package com.ferdielik.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ferdielik.dao.AnnounceDAO;
 import com.ferdielik.entity.Announce;
@@ -12,6 +13,7 @@ import com.ferdielik.util.KouParser;
 /**
  * Created by ferdielik on 16/02/2017.
  */
+@Service
 public class KouServiceImpl implements KouService
 {
     @Autowired
