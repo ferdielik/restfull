@@ -25,6 +25,9 @@ public class Announce implements Serializable
     @Column(name = "title")
     private String title;
 
+    @Column(name = "author")
+    private String author;
+
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private AnnounceType type;
@@ -60,6 +63,16 @@ public class Announce implements Serializable
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(String author)
+    {
+        this.author = author;
     }
 
     public AnnounceType getType()

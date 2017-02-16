@@ -7,8 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ferdielik.entity.Test;
-
 // todo
 public abstract class AbstractDAO<T>
 {
