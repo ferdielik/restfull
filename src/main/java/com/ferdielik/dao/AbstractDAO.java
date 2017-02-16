@@ -36,7 +36,7 @@ public abstract class AbstractDAO<T>
         getCurrentSession().delete(getById(id));
     }
 
-    public List<Test> getAll()
+    public List<T> getAll()
     {
         return getCurrentSession().createCriteria(persistentClass).list();
     }
