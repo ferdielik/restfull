@@ -1,6 +1,8 @@
 package com.ferdielik.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,10 @@ import com.ferdielik.util.KouParser;
 public class KouServiceImpl implements KouService
 {
     @Autowired
-    KouParser kouParser;
+    private KouParser kouParser;
 
     @Autowired
-    AnnounceDAO announceDAO;
+    private AnnounceDAO announceDAO;
 
     @Override
     public List<Announce> getAllAnnounces()
@@ -31,10 +33,11 @@ public class KouServiceImpl implements KouService
     @Override
     public void parseAndSaveAnnounces() throws Exception
     {
+        //todo: find a better way
+
+        Set<Announce> announces = new HashSet<>(getAllAnnounces());
         announceDAO.deleteAll();
-
-        List<Announce> announces = kouParser.parseAllAnnounces();
-
+        announces.addAll(kouParser.parseAllAnnounces());
         announces.forEach(announceDAO::saveOrUpdate);
     }
 }

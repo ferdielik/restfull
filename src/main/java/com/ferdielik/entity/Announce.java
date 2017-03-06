@@ -94,4 +94,26 @@ public class Announce implements Serializable
     {
         this.content = content;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Announce announce = (Announce) o;
+
+        if (!title.equals(announce.title)) return false;
+        if (!author.equals(announce.author)) return false;
+        return content.equals(announce.content);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + content.hashCode();
+        return result;
+    }
 }
