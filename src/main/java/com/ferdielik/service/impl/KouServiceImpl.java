@@ -38,6 +38,9 @@ public class KouServiceImpl implements KouService
         Set<Announce> announces = new HashSet<>(getAllAnnounces());
         announceDAO.deleteAll();
         announces.addAll(kouParser.parseAllAnnounces());
-        announces.forEach(announceDAO::saveOrUpdate);
+        announces.forEach(a ->
+        {
+            announceDAO.saveOrUpdate(a.clone());
+        });
     }
 }

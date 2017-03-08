@@ -95,6 +95,18 @@ public class Announce implements Serializable
         this.content = content;
     }
 
+    public Announce clone()
+    {
+        Announce announce = new Announce();
+        announce.setAuthor(author);
+        announce.setTitle(title);
+        announce.setType(type);
+        announce.setDate(date);
+        announce.setContent(content);
+
+        return announce;
+    }
+
     @Override
     public boolean equals(Object o)
     {
