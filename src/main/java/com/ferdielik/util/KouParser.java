@@ -17,27 +17,30 @@ import com.ferdielik.entity.AnnounceType;
 public class KouParser
 {
     private static final String KOU_COMPUTER_URL = "http://bilgisayar.kocaeli.edu.tr/";
+    private static final String KOU_COMPUTER_GENERAL_URL = "http://bilgisayar.kocaeli.edu.tr/tumgenelduyurular.php";
+    private static final String KOU_COMPUTER_SECTION_URL = "http://bilgisayar.kocaeli.edu.tr/tumbolumduyurulari.php";
 
     public List<Announce> parseAllAnnounces() throws Exception
     {
         List<Announce> announces = new ArrayList<>();
+        announces.addAll(parseAllAnnounces(KOU_COMPUTER_GENERAL_URL, AnnounceType.GENERAL));
+        announces.addAll(parseAllAnnounces(KOU_COMPUTER_SECTION_URL, AnnounceType.SECTION));
+        return announces;
+    }
 
-        Document doc = Jsoup.connect(KOU_COMPUTER_URL).get();
+    private List<Announce> parseAllAnnounces(String url, AnnounceType type) throws Exception
+    {
+        List<Announce> announces = new ArrayList<>();
+
+        Document doc = Jsoup.connect(url).get();
         Elements newsHeadlines = doc.select(".contentList");
         Elements elements = newsHeadlines.get(0).select(".item");
-        Elements eventElements = newsHeadlines.get(1).select(".item");
 
         elements.forEach(element ->
         {
-            Announce announce = buildAnnounce(element, AnnounceType.GENERAL);
+            Announce announce = buildAnnounce(element, type);
             announces.add(announce);
 
-        });
-
-        eventElements.forEach(element ->
-        {
-            Announce announce = buildAnnounce(element, AnnounceType.SECTION);
-            announces.add(announce);
         });
 
         return announces;
