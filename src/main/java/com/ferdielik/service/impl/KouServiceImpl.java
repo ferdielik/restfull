@@ -34,11 +34,7 @@ public class KouServiceImpl implements KouService
     public void parseAndSaveAnnounces() throws Exception
     {
         //todo: find a better way
-
-        Set<Announce> announces = new HashSet<>(getAllAnnounces());
-        announceDAO.deleteAll();
-        announces.addAll(kouParser.parseAllAnnounces());
-        announces.forEach(a ->
+        kouParser.parseAllAnnounces().forEach(a ->
         {
             announceDAO.saveOrUpdate(a.clone());
         });
