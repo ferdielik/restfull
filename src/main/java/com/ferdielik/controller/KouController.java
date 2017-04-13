@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ferdielik.entity.AnnounceType;
 import com.ferdielik.service.KouService;
 
 /**
@@ -23,6 +24,13 @@ public class KouController
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ResponseEntity getMainAnnounces()
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(kouService.getAnnounces(AnnounceType.GENERAL));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
+    public ResponseEntity getAnnounces()
     {
         return ResponseEntity.status(HttpStatus.OK).body(kouService.getAllAnnounces());
     }

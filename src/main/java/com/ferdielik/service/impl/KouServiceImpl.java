@@ -2,11 +2,13 @@ package com.ferdielik.service.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ferdielik.dao.AnnounceDAO;
 import com.ferdielik.entity.Announce;
+import com.ferdielik.entity.AnnounceType;
 import com.ferdielik.service.KouService;
 import com.ferdielik.util.KouParser;
 
@@ -26,6 +28,12 @@ public class KouServiceImpl implements KouService
     public List<Announce> getAllAnnounces()
     {
         return announceDAO.getAll();
+    }
+
+    @Override
+    public List<Announce> getAnnounces(AnnounceType type)
+    {
+        return announceDAO.getAnnounces(type);
     }
 
     @Override
