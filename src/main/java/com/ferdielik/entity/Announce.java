@@ -9,9 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "announce")
+@Table(name = "announce", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title", "author"}))
 public class Announce implements Serializable
 {
     @Id

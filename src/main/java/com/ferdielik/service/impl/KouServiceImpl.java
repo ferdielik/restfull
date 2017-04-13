@@ -1,8 +1,6 @@
 package com.ferdielik.service.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,10 +31,17 @@ public class KouServiceImpl implements KouService
     @Override
     public void parseAndSaveAnnounces() throws Exception
     {
-        //todo: find a better way
-        kouParser.parseAllAnnounces().forEach(a ->
+        kouParser.parseAllAnnounces().forEach(announce ->
         {
-            announceDAO.saveOrUpdate(a.clone());
+            try
+            {
+                announceDAO.saveOrUpdate(announce);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
         });
     }
 }
