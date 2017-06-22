@@ -28,7 +28,7 @@ public class HibernateConfiguration
     {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[]{"com.ferdielik.entity"});
+        sessionFactory.setPackagesToScan("com.ferdielik.entity");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
