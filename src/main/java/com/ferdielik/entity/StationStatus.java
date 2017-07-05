@@ -3,7 +3,7 @@ package com.ferdielik.entity;
 public enum StationStatus
 {
     ACTIVE("Aktif"),
-    NONACTIVE("Aktif Değil");
+    NONACTIVE("Aktif Degil");
 
     private String label;
 
