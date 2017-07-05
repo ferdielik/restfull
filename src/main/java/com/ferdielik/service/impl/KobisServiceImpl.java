@@ -33,7 +33,11 @@ public class KobisServiceImpl implements KobisService
         {
             try
             {
-                stationDAO.saveOrUpdate(station);
+                Station founded = stationDAO.getByName(station.getName());
+                if (founded != null)
+                    update(founded, station);
+                else
+                    stationDAO.saveOrUpdate(station);
             }
             catch (Exception e)
             {
@@ -41,5 +45,16 @@ public class KobisServiceImpl implements KobisService
             }
 
         });
+    }
+
+    private void update(Station founded, Station station)
+    {
+        founded.setTown(station.getTown());
+        founded.setStatus(station.getStatus());
+        founded.setBicycle(station.getBicycle());
+        founded.setEmpty(station.getEmpty());
+        founded.setName(station.getName());
+        founded.setLastUpdate(station.getLastUpdate());
+        stationDAO.saveOrUpdate(founded);
     }
 }
