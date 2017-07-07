@@ -39,7 +39,6 @@ public class KobisParser
 
         });
 
-        stations.forEach(System.out::println);
         return stations;
     }
 
@@ -64,7 +63,8 @@ public class KobisParser
     private String getName(Element element)
     {
         String name = element.select(".boxheader td").get(NAME_INDEX).html();
-        return name.split(".")[1].trim();
+        String index = name.split("\\.")[0];
+        return name.replaceFirst(index + ".", "").trim();
     }
 
     private StationStatus getStatus(Element element)
