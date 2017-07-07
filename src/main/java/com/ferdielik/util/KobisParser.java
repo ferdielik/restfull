@@ -63,7 +63,8 @@ public class KobisParser
 
     private String getName(Element element)
     {
-        return element.select(".boxheader td").get(NAME_INDEX).html();
+        String name = element.select(".boxheader td").get(NAME_INDEX).html();
+        return name.split(".")[1].trim();
     }
 
     private StationStatus getStatus(Element element)
