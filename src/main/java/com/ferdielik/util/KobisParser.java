@@ -1,21 +1,19 @@
 package com.ferdielik.util;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.ferdielik.entity.Station;
+import com.ferdielik.entity.StationStatus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import com.ferdielik.entity.Station;
-import com.ferdielik.entity.StationStatus;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
-public class KobisParser
-{
+public class KobisParser {
     private static final String KOBIS_STATIONS_URL = "http://www.kobis.com.tr/istasyonlar.aspx";
 
     private static final int NAME_INDEX = 1;
@@ -25,8 +23,7 @@ public class KobisParser
     private static final int BICYCLE_INDEX = 9;
     private static final int UPDATE_INDEX = 11;
 
-    public List<Station> parseAllStations() throws Exception
-    {
+    public List<Station> parseAllStations() throws Exception {
         List<Station> stations = new ArrayList<>();
 
         Document doc = Jsoup.connect(KOBIS_STATIONS_URL).get();
@@ -42,8 +39,7 @@ public class KobisParser
         return stations;
     }
 
-    private Station buildStation(Element element)
-    {
+    private Station buildStation(Element element) {
         Station station = new Station();
         station.setLastUpdate(new Date());
         station.setEmpty(getEmptyPark(element));
@@ -55,42 +51,33 @@ public class KobisParser
         return station;
     }
 
-    private String getTown(Element element)
-    {
+    private String getTown(Element element) {
         return element.select(".boxheader td").get(TOWN_INDEX).html();
     }
 
-    private String getName(Element element)
-    {
+    private String getName(Element element) {
         String name = element.select(".boxheader td").get(NAME_INDEX).html();
         String index = name.split("\\.")[0];
         return name.replaceFirst(index + ".", "").trim();
     }
 
-    private StationStatus getStatus(Element element)
-    {
+    private StationStatus getStatus(Element element) {
         String label = element.select(".boxheader td").get(STATUS_INDEX).html();
         return StationStatus.byLabel(label);
     }
 
-    private int getEmptyPark(Element element)
-    {
+    private int getEmptyPark(Element element) {
         return returnNullIfException(element.select(".boxheader td").get(EMPTY_INDEX));
     }
 
-    private int getBicycle(Element element)
-    {
+    private int getBicycle(Element element) {
         return returnNullIfException(element.select(".boxheader td").get(BICYCLE_INDEX));
     }
 
-    private int returnNullIfException(Element element)
-    {
-        try
-        {
+    private int returnNullIfException(Element element) {
+        try {
             return Integer.valueOf(element.html());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return -1;
         }
     }

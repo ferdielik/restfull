@@ -1,9 +1,5 @@
 package com.ferdielik.configuration;
 
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,17 +11,18 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.sql.DataSource;
+import java.util.Properties;
+
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:application.properties")
-public class HibernateConfiguration
-{
+public class HibernateConfiguration {
     @Autowired
     private Environment environment;
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory()
-    {
+    public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.ferdielik.entity");
@@ -34,8 +31,7 @@ public class HibernateConfiguration
     }
 
     @Bean
-    public DataSource dataSource()
-    {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
@@ -44,8 +40,7 @@ public class HibernateConfiguration
         return dataSource;
     }
 
-    private Properties hibernateProperties()
-    {
+    private Properties hibernateProperties() {
         Properties properties = new Properties();
         addPropertiesWithMessage(properties, "hibernate.dialect");
         addPropertiesWithMessage(properties, "hibernate.show_sql");
@@ -56,15 +51,13 @@ public class HibernateConfiguration
 
     @Bean
     @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory s)
-    {
+    public HibernateTransactionManager transactionManager(SessionFactory s) {
         HibernateTransactionManager txManager = new HibernateTransactionManager();
         txManager.setSessionFactory(s);
         return txManager;
     }
 
-    private void addPropertiesWithMessage(Properties properties, String messageKey)
-    {
+    private void addPropertiesWithMessage(Properties properties, String messageKey) {
         properties.put(messageKey, environment.getRequiredProperty(messageKey));
     }
 }

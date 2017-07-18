@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 @ComponentScan(basePackages = "com.ferdielik")
 @PropertySource(value = {"classpath:application.properties"})
-public class AppConfig extends WebMvcConfigurerAdapter
-{
+public class AppConfig extends WebMvcConfigurerAdapter {
 
 }

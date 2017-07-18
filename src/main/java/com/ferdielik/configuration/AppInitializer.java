@@ -2,23 +2,19 @@ package com.ferdielik.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer
-{
+public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
-    protected Class<?>[] getRootConfigClasses()
-    {
+    protected Class<?>[] getRootConfigClasses() {
         return new Class[]{AppConfig.class};
     }
 
     @Override
-    protected Class<?>[] getServletConfigClasses()
-    {
+    protected Class<?>[] getServletConfigClasses() {
         return null;
     }
 
     @Override
-    protected String[] getServletMappings()
-    {
+    protected String[] getServletMappings() {
         return new String[]{"/"};
     }
 

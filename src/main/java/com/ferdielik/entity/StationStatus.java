@@ -1,19 +1,16 @@
 package com.ferdielik.entity;
 
-public enum StationStatus
-{
+public enum StationStatus {
     ACTIVE("Aktif"),
     NONACTIVE("Aktif Degil");
 
     private String label;
 
-    StationStatus(String label)
-    {
+    StationStatus(String label) {
         this.label = label;
     }
 
-    public static StationStatus byLabel(String label)
-    {
+    public static StationStatus byLabel(String label) {
         for (StationStatus status : values())
             if (label.equals(status.getLabel()))
                 return status;
@@ -21,8 +18,7 @@ public enum StationStatus
         return NONACTIVE;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 }

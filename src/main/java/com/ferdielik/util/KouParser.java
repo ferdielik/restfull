@@ -1,8 +1,7 @@
 package com.ferdielik.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.ferdielik.entity.Announce;
+import com.ferdielik.entity.AnnounceType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,26 +9,23 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import com.ferdielik.entity.Announce;
-import com.ferdielik.entity.AnnounceType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
-public class KouParser
-{
+public class KouParser {
     private static final String KOU_COMPUTER_URL = "http://bilgisayar.kocaeli.edu.tr/";
     private static final String KOU_COMPUTER_GENERAL_URL = "http://bilgisayar.kocaeli.edu.tr/tumgenelduyurular.php";
     private static final String KOU_COMPUTER_SECTION_URL = "http://bilgisayar.kocaeli.edu.tr/tumbolumduyurulari.php";
 
-    public List<Announce> parseAllAnnounces() throws Exception
-    {
+    public List<Announce> parseAllAnnounces() throws Exception {
         List<Announce> announces = new ArrayList<>();
         announces.addAll(parseAllAnnounces(KOU_COMPUTER_GENERAL_URL, AnnounceType.GENERAL));
         announces.addAll(parseAllAnnounces(KOU_COMPUTER_SECTION_URL, AnnounceType.SECTION));
         return announces;
     }
 
-    private List<Announce> parseAllAnnounces(String url, AnnounceType type) throws Exception
-    {
+    private List<Announce> parseAllAnnounces(String url, AnnounceType type) throws Exception {
         List<Announce> announces = new ArrayList<>();
 
         Document doc = Jsoup.connect(url).get();
@@ -46,8 +42,7 @@ public class KouParser
         return announces;
     }
 
-    private Announce buildAnnounce(Element element, AnnounceType type)
-    {
+    private Announce buildAnnounce(Element element, AnnounceType type) {
         Announce announce = new Announce();
         announce.setContent(getContent(element));
         announce.setTitle(getTitle(element));
@@ -58,26 +53,22 @@ public class KouParser
         return announce;
     }
 
-    private String getAuthor(Element element)
-    {
+    private String getAuthor(Element element) {
         return element.select(".mainInfo .author").html();
     }
 
-    private String getTitle(Element element)
-    {
+    private String getTitle(Element element) {
         return element.select(".mainInfo .title a").html();
     }
 
-    private String getContent(Element element)
-    {
+    private String getContent(Element element) {
         String content = element.select(".mainInfo .title .duyuruMetni").html();
         content = Jsoup.clean(content, new Whitelist());
 
         return content;
     }
 
-    private String getDate(Element element)
-    {
+    private String getDate(Element element) {
         return element.select(".dateBox .day").html() + " " + element.select(".dateBox .month").html();
     }
 }
