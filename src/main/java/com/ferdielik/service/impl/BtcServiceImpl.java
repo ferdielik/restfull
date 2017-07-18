@@ -18,8 +18,10 @@ import java.io.IOException;
 public class BtcServiceImpl implements BtcService {
 
     private static String FILE_PATH = "/tmp/btc";
+    
     @Autowired
     private BtcParser btcParser;
+
     @Autowired
     private BtcDAO btcDAO;
 
@@ -31,7 +33,6 @@ public class BtcServiceImpl implements BtcService {
         btcParser = new BtcParser();
         parse();
         System.out.println(get());
-        ;
     }
 
 
@@ -39,8 +40,21 @@ public class BtcServiceImpl implements BtcService {
     public void parse() throws IOException {
         Btc parse = btcParser.parse();
         ObjectMapper mapper = new ObjectMapper();
-
+        buildDiffs(parse);
         mapper.writeValue(new File(FILE_PATH), parse);
+    }
+
+    private void buildDiffs(Btc btc) {
+
+        addDiff(btc, "btcTurk", btc.getBtcTurk());
+        addDiff(btc, "koinim", btc.getKoinim());
+        addDiff(btc, "paribu", btc.getParibu());
+
+    }
+
+    private void addDiff(Btc btc, String label, double btcTurk) {
+        double usdVal = btc.getBitstamp() * btc.getDollar();
+        btc.getDiffs().put(label, usdVal - btcTurk);
     }
 
     @Override
