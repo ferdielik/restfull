@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -20,6 +21,11 @@ public class BtcParser {
     private static final String KOINIM_API = "https://koinim.com/ticker/";
     private static final String PARIBU_API = "";
 
+
+    public static void main(String[] args) throws Exception
+    {
+        System.out.println(new BtcParser().parseParibu());
+    }
 
     public Btc parse() {
         try {
@@ -45,10 +51,12 @@ public class BtcParser {
 
         btc.setBtcTurk(getValue(BTC_API, "last"));
         btc.setBitstamp(getValue(BITSTAMP_API, "last"));
+
+        btc.setDate(new Date());
         return btc;
     }
 
-    double parseDollar() throws Exception {
+    private double parseDollar() throws Exception {
         Map<String, String> headers = new HashMap<>();
         headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36");
         headers.put("Referer", "https://www.garanti.com.tr/tr/");
@@ -64,22 +72,26 @@ public class BtcParser {
         return 0;
     }
 
-    double parseKoinim() throws Exception {
+    private double parseKoinim() throws Exception {
         return getValue(KOINIM_API, "last_order");
 
     }
 
-    double parseParibu() throws Exception {
-        Document doc = Jsoup.connect("https://www.paribu.com")
-                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
-                .get();
-        String html = doc.getElementsByTag("script").get(1).html();
-        Pattern p = Pattern.compile("\"lst\":([0-9]+),"); //
-        Matcher m = p.matcher(html);
-        if (m.find()) {
-            String val = m.group().replaceAll("\\D+", "");
-            return Double.parseDouble(val);
-        }
-        return 0;
+    private double parseParibu() throws Exception {
+
+        return getValue("http://berkayaktan.com/btc/update", "paribuValue");
+
+
+//        Document doc = Jsoup.connect("https://www.paribu.com")
+//                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36")
+//                .get();
+//        String html = doc.getElementsByTag("script").get(1).html();
+//        Pattern p = Pattern.compile("\"lst\":([0-9]+),"); //
+//        Matcher m = p.matcher(html);
+//        if (m.find()) {
+//            String val = m.group().replaceAll("\\D+", "");
+//            return Double.parseDouble(val);
+//        }
+//        return 0;
     }
 }
