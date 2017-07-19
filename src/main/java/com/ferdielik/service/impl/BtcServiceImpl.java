@@ -54,7 +54,7 @@ public class BtcServiceImpl implements BtcService {
 
     private void addDiff(Btc btc, String label, double btcTurk) {
         double usdVal = btc.getBitstamp() * btc.getDollar();
-        btc.getDiffs().put(label, usdVal - btcTurk);
+        btc.getDiffs().put(label, btcTurk - usdVal);
     }
 
     @Override
