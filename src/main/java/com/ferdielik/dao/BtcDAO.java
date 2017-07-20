@@ -1,6 +1,5 @@
 package com.ferdielik.dao;
 
-import com.ferdielik.entity.Btc;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,18 +9,23 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ferdielik.entity.Btc;
+
 @Repository
 @Transactional
-public class BtcDAO {
+public class BtcDAO
+{
     @Autowired
     SessionFactory sessionFactory;
 
-    public Btc getByR(Long id) {
+    public Btc getByR(Long id)
+    {
         Session currentSession = sessionFactory.getCurrentSession();
         return currentSession.get(Btc.class, id);
     }
 
-    public Btc getLast() {
+    public Btc getLast()
+    {
         Session currentSession = sessionFactory.getCurrentSession();
         Criteria criteria = currentSession.createCriteria(Btc.class);
         criteria.addOrder(Order.desc("date"));
@@ -30,7 +34,8 @@ public class BtcDAO {
     }
 
 
-    public void saveOrUpdate(Btc btc) {
+    public void saveOrUpdate(Btc btc)
+    {
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.saveOrUpdate(btc);
     }

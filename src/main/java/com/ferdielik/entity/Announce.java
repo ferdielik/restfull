@@ -1,11 +1,20 @@
 package com.ferdielik.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "announce", uniqueConstraints = @UniqueConstraint(columnNames = {"date", "title", "author"}))
-public class Announce implements Serializable {
+public class Announce implements Serializable
+{
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -27,55 +36,68 @@ public class Announce implements Serializable {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getDate() {
+    public String getDate()
+    {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(String date)
+    {
         this.date = date;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public String getAuthor()
+    {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(String author)
+    {
         this.author = author;
     }
 
-    public AnnounceType getType() {
+    public AnnounceType getType()
+    {
         return type;
     }
 
-    public void setType(AnnounceType type) {
+    public void setType(AnnounceType type)
+    {
         this.type = type;
     }
 
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 
-    public Announce clone() {
+    public Announce clone()
+    {
         Announce announce = new Announce();
         announce.setAuthor(author);
         announce.setTitle(title);
@@ -87,7 +109,8 @@ public class Announce implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -99,7 +122,8 @@ public class Announce implements Serializable {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int result = title.hashCode();
         result = 31 * result + author.hashCode();
         result = 31 * result + content.hashCode();

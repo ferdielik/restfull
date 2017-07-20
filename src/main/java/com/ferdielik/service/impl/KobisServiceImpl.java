@@ -1,17 +1,19 @@
 package com.ferdielik.service.impl;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ferdielik.dao.StationDAO;
 import com.ferdielik.entity.Station;
 import com.ferdielik.service.KobisService;
 import com.ferdielik.util.KobisParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
-public class KobisServiceImpl implements KobisService {
+public class KobisServiceImpl implements KobisService
+{
     @Autowired
     private KobisParser kobisParser;
 
@@ -19,28 +21,34 @@ public class KobisServiceImpl implements KobisService {
     private StationDAO stationDAO;
 
     @Override
-    public List<Station> getAllStations() {
+    public List<Station> getAllStations()
+    {
         return stationDAO.getAll();
     }
 
     @Override
-    public void parseAndSaveStations() throws Exception {
+    public void parseAndSaveStations() throws Exception
+    {
         kobisParser.parseAllStations().forEach(station ->
         {
-            try {
+            try
+            {
                 Station founded = stationDAO.getByName(station.getName());
                 if (founded != null)
                     update(founded, station);
                 else
                     stationDAO.saveOrUpdate(station);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
 
         });
     }
 
-    private void update(Station founded, Station station) {
+    private void update(Station founded, Station station)
+    {
         founded.setTown(station.getTown());
         founded.setStatus(station.getStatus());
         founded.setBicycle(station.getBicycle());

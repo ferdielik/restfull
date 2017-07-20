@@ -1,12 +1,20 @@
 package com.ferdielik.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @Entity
 @Table(name = "station")
-public class Station implements Serializable {
+public class Station implements Serializable
+{
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -31,64 +39,79 @@ public class Station implements Serializable {
     @Column(name = "lastUpdate")
     private Date lastUpdate;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getTown() {
+    public String getTown()
+    {
         return town;
     }
 
-    public void setTown(String town) {
+    public void setTown(String town)
+    {
         this.town = town;
     }
 
-    public int getEmpty() {
+    public int getEmpty()
+    {
         return empty;
     }
 
-    public void setEmpty(int empty) {
+    public void setEmpty(int empty)
+    {
         this.empty = empty;
     }
 
-    public int getBicycle() {
+    public int getBicycle()
+    {
         return bicycle;
     }
 
-    public void setBicycle(int bicycle) {
+    public void setBicycle(int bicycle)
+    {
         this.bicycle = bicycle;
     }
 
-    public StationStatus getStatus() {
+    public StationStatus getStatus()
+    {
         return status;
     }
 
-    public void setStatus(StationStatus status) {
+    public void setStatus(StationStatus status)
+    {
         this.status = status;
     }
 
-    public Date getLastUpdate() {
+    public Date getLastUpdate()
+    {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(Date lastUpdate)
+    {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Station{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
