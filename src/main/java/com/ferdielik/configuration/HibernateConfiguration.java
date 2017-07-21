@@ -10,10 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
@@ -33,15 +34,23 @@ public class HibernateConfiguration
         return sessionFactory;
     }
 
-    @Bean
+    @Bean(destroyMethod = "close")
     public DataSource dataSource()
     {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
-        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
-        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-        return dataSource;
+        final HikariDataSource ds = new HikariDataSource();
+        ds.setMaximumPoolSize(Integer.parseInt(environment.getRequiredProperty("jdbc.maxPoolSize")));
+        ds.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        ds.addDataSourceProperty("url", environment.getRequiredProperty("jdbc.url"));
+        ds.addDataSourceProperty("user", environment.getRequiredProperty("jdbc.username"));
+        ds.addDataSourceProperty("password", environment.getRequiredProperty("jdbc.password"));
+        ds.addDataSourceProperty("cachePrepStmts", true);
+        ds.addDataSourceProperty("prepStmtCacheSize", 250);
+        ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        ds.addDataSourceProperty("useServerPrepStmts", true);
+        ds.addDataSourceProperty("characterEncoding", "UTF-8");
+        ds.addDataSourceProperty("useUnicode", "true");
+        ds.setConnectionTestQuery("SELECT 1");
+        return ds;
     }
 
     private Properties hibernateProperties()

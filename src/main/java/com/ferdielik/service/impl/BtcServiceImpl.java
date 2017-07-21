@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ferdielik.btc.BtcParser;
@@ -16,9 +17,9 @@ import com.ferdielik.service.BtcService;
  * Created by stuff on 7/18/2017.
  */
 @Service
+@Transactional
 public class BtcServiceImpl implements BtcService
 {
-
     private static String FILE_PATH = "/tmp/btc";
 
     @Autowired
@@ -38,7 +39,6 @@ public class BtcServiceImpl implements BtcService
         parse();
         System.out.println(get());
     }
-
 
     @Override
     public void parse() throws IOException
