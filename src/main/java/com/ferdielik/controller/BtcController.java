@@ -1,7 +1,5 @@
 package com.ferdielik.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +22,14 @@ public class BtcController
 
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public ResponseEntity get() throws IOException
+    public ResponseEntity get()
     {
         return ResponseEntity.status(HttpStatus.OK).body(btcService.get());
     }
 
     @ResponseBody
     @RequestMapping(value = "/parse", method = RequestMethod.POST)
-    public ResponseEntity parse() throws Exception
+    public ResponseEntity parse()
     {
         btcService.parse();
         return ResponseEntity.ok().body(true);

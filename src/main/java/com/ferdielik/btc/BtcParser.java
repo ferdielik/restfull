@@ -15,20 +15,8 @@ import com.ferdielik.util.HttpUtil;
 @Component
 public class BtcParser
 {
-    public Btc parse()
-    {
-        try
-        {
-            return build();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
-    private Btc build() throws Exception
+    public Btc build() throws Exception
     {
         Btc btc = new Btc();
         btc.setDollar(parseDollar());
@@ -60,15 +48,29 @@ public class BtcParser
         return 0;
     }
 
-    private double parseParibu() throws Exception
+    private double parseParibu()
     {
-        JSONObject en = new JSONObject(HttpUtil.get(Constants.PARIBU_API, null));
-        return en.getJSONObject("BTC_TL").getDouble("last");
+        try
+        {
+            JSONObject en = new JSONObject(HttpUtil.get(Constants.PARIBU_API, null));
+            return en.getJSONObject("BTC_TL").getDouble("last");
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
     }
 
-    private double getValue(String url, String key) throws Exception
+    private double getValue(String url, String key)
     {
-        JSONObject en = new JSONObject(HttpUtil.get(url, null));
-        return en.getDouble(key);
+        try
+        {
+            JSONObject en = new JSONObject(HttpUtil.get(url, null));
+            return en.getDouble(key);
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
     }
 }

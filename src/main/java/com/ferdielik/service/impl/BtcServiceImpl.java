@@ -1,7 +1,6 @@
 package com.ferdielik.service.impl;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,19 +24,34 @@ public class BtcServiceImpl implements BtcService
     private BtcParser btcParser;
 
     @Override
-    public void parse() throws IOException
+    public void parse()
     {
-        Btc parse = btcParser.parse();
-        ObjectMapper mapper = new ObjectMapper();
-        buildDiffs(parse);
-        mapper.writeValue(new File(FILE_PATH), parse);
+        try
+        {
+            Btc parse = btcParser.build();
+            buildDiffs(parse);
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File(FILE_PATH), parse);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public Btc get() throws IOException
+    public Btc get()
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(FILE_PATH), Btc.class);
+        try
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(new File(FILE_PATH), Btc.class);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     private void buildDiffs(Btc btc)

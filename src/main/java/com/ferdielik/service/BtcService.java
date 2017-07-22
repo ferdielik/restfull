@@ -1,12 +1,10 @@
 package com.ferdielik.service;
 
-import java.io.IOException;
-
 import com.ferdielik.entity.Btc;
 
 public interface BtcService
 {
-    void parse() throws IOException;
+    void parse();
 
-    Btc get() throws IOException;
+    Btc get();
 }
