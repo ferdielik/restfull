@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ferdielik.dao.AnnounceDAO;
 import com.ferdielik.entity.Announce;
@@ -11,10 +12,8 @@ import com.ferdielik.entity.AnnounceType;
 import com.ferdielik.service.KouService;
 import com.ferdielik.util.KouParser;
 
-/**
- * Created by ferdielik on 16/02/2017.
- */
 @Service
+@Transactional(readOnly = false)
 public class KouServiceImpl implements KouService
 {
     @Autowired

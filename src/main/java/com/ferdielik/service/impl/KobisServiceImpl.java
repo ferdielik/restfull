@@ -5,13 +5,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ferdielik.dao.StationDAO;
 import com.ferdielik.entity.Station;
+import com.ferdielik.entity.StationStatus;
 import com.ferdielik.service.KobisService;
 import com.ferdielik.util.KobisParser;
 
 @Service
+@Transactional
 public class KobisServiceImpl implements KobisService
 {
     @Autowired
@@ -23,7 +26,7 @@ public class KobisServiceImpl implements KobisService
     @Override
     public List<Station> getAllStations()
     {
-        return stationDAO.getAll();
+        return stationDAO.load(StationStatus.ACTIVE);
     }
 
     @Override
