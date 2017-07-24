@@ -1,15 +1,14 @@
 package com.ferdielik.service.impl;
 
-import java.io.File;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ferdielik.btc.BtcParser;
 import com.ferdielik.entity.Btc;
 import com.ferdielik.service.BtcService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
 
 /**
  * Created by stuff on 7/18/2017.
@@ -33,6 +32,7 @@ public class BtcServiceImpl implements BtcService
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(new File(FILE_PATH), parse);
+
         }
         catch (Exception e)
         {
@@ -50,6 +50,7 @@ public class BtcServiceImpl implements BtcService
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             return null;
         }
     }
