@@ -1,13 +1,21 @@
 package com.ferdielik.btc;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.ferdielik.entity.Btc;
 import com.ferdielik.util.HttpUtil;
@@ -36,13 +44,11 @@ public class BtcParser
         headers.put("User-Agent", Constants.USER_AGENT);
         headers.put("Referer", "https://www.garanti.com.tr/tr/");
         String response = HttpUtil.get("https://www.garanti.com.tr/proxy/asp/xml/icpiyasaX.xml", headers);
-
-
-        Pattern p = Pattern.compile("<DESC>USD</DESC><LAST>[0-9],[0-9]+</LAST>"); //
+        Pattern p = Pattern.compile("<DESC>USD</DESC>\n<LAST>[0-9],[0-9]+</LAST>"); //
         Matcher m = p.matcher(response);
         if (m.find())
         {
-            String val = m.group().replaceAll("<DESC>USD</DESC><LAST>|</LAST>", "").replace(",", ".");
+            String val = m.group().replaceAll("<DESC>USD</DESC>\n<LAST>|</LAST>", "").replace(",", ".");
             return Double.parseDouble(val);
         }
         return 0;
